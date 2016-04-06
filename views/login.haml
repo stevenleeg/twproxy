@@ -46,7 +46,7 @@
     .box
       %h1 Login
       - if @error
-        %p Your shit sucked
+        %p= @error
 
       %form{action:'/login', method: 'POST'}
         %input{type: 'text', placeholder: 'Username', name: 'user'}

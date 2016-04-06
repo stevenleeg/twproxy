@@ -1,7 +1,8 @@
 require "sinatra"
 require "net/http"
 require "uri"
-require 'digest/sha1'
+require "digest/sha1"
+require "rotp"
 
 set :bind, '0.0.0.0'
 
@@ -29,7 +30,13 @@ post '/login' do
   user = params['user'] == ENV['WIKI_USER']
   pass = hashed_pass == ENV['WIKI_PASS']
 
-  if user && pass
+  totp = ROTP::TOTP.new(ENV['WIKI_AUTH'])
+  auth = totp.verify(params['auth'])
+
+  if !auth
+    @error = 'Auth code is busted'
+    haml :login
+  elsif user && pass && auth
     token = Digest::SHA1.hexdigest(
       "#{params['user']}#{hashed_pass}#{ENV['WIKI_AUTH']}"
     )
@@ -37,7 +44,7 @@ post '/login' do
 
     redirect '/'
   else
-    @error = true
+    @error = 'Your shit is whack'
     haml :login
   end
 end
