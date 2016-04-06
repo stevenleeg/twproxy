@@ -1,6 +1,46 @@
 require "sinatra"
 require "net/http"
 require "uri"
+require "bcrypt"
+
+enable :sessions
+
+before do
+  accepted_token = BCrypt::Password.create(
+    "#{ENV['WIKI_USER']}#{ENV['wiki_pass']}#{ENV['WIKI_AUTH']}"
+  )
+
+  puts session.to_s
+
+  # If we're logging in we don't need to authenticate the user
+  return if request.path == '/login'
+
+  if !session.include? :auth || !session[:auth] != @accepted_token
+    redirect '/login'
+    return
+  end
+end
+
+get '/login' do
+  haml :login
+end
+
+post '/login' do
+  user = params['user'] == ENV['WIKI_USER']
+  pass = params['pass'] == ENV['WIKI_PASS']
+
+  if user && pass
+    token = BCrypt::Password.create(
+      "#{params[:user]}#{params[:pass]}#{ENV['WIKI_AUTH']}"
+    )
+    session[:auth] = token.to_s
+
+    redirect '/'
+  else
+    @error = true
+    haml :login
+  end
+end
 
 put /\/(.*)/ do
   uri = URI.parse("http://localhost:8080/#{URI::encode(params[:captures][0])}")

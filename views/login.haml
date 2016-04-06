@@ -1,0 +1,35 @@
+!!!
+%html
+  %head
+    %title wiki - login
+    :css
+      body { 
+        font-family: 'Helvetica'; 
+        color: #111; 
+        font-weight: 300; 
+      }
+      .box {
+        width: 400px;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: #EEE;
+        padding: 15px;
+        box-sizing: border-box;
+      }
+      input {
+        display: block;
+      }
+
+  %body
+    .box
+      %h1 Login
+      - if @error
+        %p Your shit sucked
+
+      %form{action:'/login', method: 'POST'}
+        %input{type: 'text', placeholder: 'Username', name: 'user'}
+        %input{type: 'password', placeholder: 'Password', name: 'pass'}
+        %input{type: 'number', placeholder: 'Auth code', name: 'auth'}
+        %input{type: 'submit', value: 'Login'}
