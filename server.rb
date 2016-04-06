@@ -46,7 +46,7 @@ post '/login' do
 end
 
 put /\/(.*)/ do
-  uri = URI.parse("http://localhost:8080/#{URI::encode(params[:captures][0])}")
+  uri = URI.parse("#{ENV['WIKI_URL']}#{URI::encode(params[:captures][0])}")
   http = Net::HTTP.new(uri.host, uri.port)
 
   req = Net::HTTP::Put.new(uri.request_uri, initheader = { 'Content-Type' => 'application/json'})
@@ -61,7 +61,7 @@ put /\/(.*)/ do
 end
 
 delete /\/(.*)/ do
-  uri = URI.parse("http://localhost:8080/#{URI::encode(params[:captures][0])}")
+  uri = URI.parse("#{ENV['WIKI_URL']}#{URI::encode(params[:captures][0])}")
   http = Net::HTTP.new(uri.host, uri.port)
 
   req = Net::HTTP::Delete.new(uri.request_uri)
@@ -72,7 +72,7 @@ delete /\/(.*)/ do
 end
 
 get /\/(.*)/ do
-  uri = URI.parse("http://localhost:8080/#{params[:captures][0]}")
+  uri = URI.parse("#{ENV['WIKI_URL']}#{params[:captures][0]}")
   http = Net::HTTP.new(uri.host, uri.port)
   req = Net::HTTP::Get.new(uri.request_uri)
 
