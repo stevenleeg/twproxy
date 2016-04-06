@@ -4,6 +4,7 @@ require "uri"
 require "bcrypt"
 
 enable :sessions
+set :bind, '0.0.0.0'
 
 before do
   accepted_token = BCrypt::Password.create(
