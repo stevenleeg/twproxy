@@ -10,8 +10,6 @@ before do
     "#{ENV['WIKI_USER']}#{ENV['wiki_pass']}#{ENV['WIKI_AUTH']}"
   )
 
-  puts session.to_s
-
   # If we're logging in we don't need to authenticate the user
   return if request.path == '/login'
 
@@ -23,6 +21,11 @@ end
 
 get '/login' do
   haml :login
+end
+
+get '/logout' do
+  session[:auth] = ''
+  redirect '/login'
 end
 
 post '/login' do
