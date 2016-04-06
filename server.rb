@@ -3,15 +3,16 @@ require "net/http"
 require "uri"
 require 'digest/sha1'
 
-enable :sessions
 set :bind, '0.0.0.0'
 
 before do
   @accepted_token = Digest::SHA1.hexdigest(
     "#{ENV['WIKI_USER']}#{ENV['WIKI_PASS']}#{ENV['WIKI_AUTH']}"
-  ).to_s
+  )
 
-  if session[:auth] == @accepted_token
+  token = request.cookies['auth']
+
+  if token == @accepted_token
     @authenticated = true
   elsif request.path != '/login'
     redirect '/login'
@@ -24,14 +25,15 @@ get '/login' do
 end
 
 post '/login' do
-  hashed_pass = Digest::SHA1.hexdigest(params['pass']).to_s
+  hashed_pass = Digest::SHA1.hexdigest(params['pass'])
   user = params['user'] == ENV['WIKI_USER']
   pass = hashed_pass == ENV['WIKI_PASS']
 
   if user && pass
-    session[:auth] = Digest::SHA1.hexdigest(
+    token = Digest::SHA1.hexdigest(
       "#{params['user']}#{hashed_pass}#{ENV['WIKI_AUTH']}"
-    ).to_s
+    )
+    response.set_cookie('auth', value: token, secure: true, httponly: true)
 
     redirect '/'
   else
