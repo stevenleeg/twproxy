@@ -1,49 +1,48 @@
 require "sinatra"
 require "net/http"
 require "uri"
-require "bcrypt"
+require 'digest/sha1'
 
 enable :sessions
 set :bind, '0.0.0.0'
 
 before do
-  accepted_token = BCrypt::Password.create(
-    "#{ENV['WIKI_USER']}#{ENV['wiki_pass']}#{ENV['WIKI_AUTH']}"
-  )
+  @accepted_token = Digest::SHA1.hexdigest(
+    "#{ENV['WIKI_USER']}#{ENV['WIKI_PASS']}#{ENV['WIKI_AUTH']}"
+  ).to_s
 
-  # If we're logging in we don't need to authenticate the user
-  return if request.path == '/login'
-
-  if !session.include? :auth || !session[:auth] != @accepted_token
+  if session[:auth] == @accepted_token
+    @authenticated = true
+  elsif request.path != '/login'
     redirect '/login'
-    return
   end
 end
 
 get '/login' do
+  redirect '/' if @authenticated
   haml :login
 end
 
-get '/logout' do
-  session[:auth] = ''
-  redirect '/login'
-end
-
 post '/login' do
+  hashed_pass = Digest::SHA1.hexdigest(params['pass']).to_s
   user = params['user'] == ENV['WIKI_USER']
-  pass = params['pass'] == ENV['WIKI_PASS']
+  pass = hashed_pass == ENV['WIKI_PASS']
 
   if user && pass
-    token = BCrypt::Password.create(
-      "#{params[:user]}#{params[:pass]}#{ENV['WIKI_AUTH']}"
-    )
-    session[:auth] = token.to_s
+    session[:auth] = Digest::SHA1.hexdigest(
+      "#{params['user']}#{hashed_pass}#{ENV['WIKI_AUTH']}"
+    ).to_s
 
     redirect '/'
   else
     @error = true
     haml :login
   end
+end
+
+get '/logout' do
+  session[:auth] = ''
+  redirect '/login'
 end
 
 put /\/(.*)/ do

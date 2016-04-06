@@ -43,6 +43,8 @@
       }
 
   %body
+    %pre
+      = "current: #{session[:auth]} actual: #{@accepted_token}"
     .box
       %h1 Login
       - if @error
