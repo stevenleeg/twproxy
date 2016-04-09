@@ -8,23 +8,26 @@ options = {}
 OptionParser.new do |opts|
   opts.banner = "Usage: twproxy [options]"
 
-  opts.on("-p", "--port PORT", "Specify port to run the proxy on") do |port|
+  opts.on("-p", "--port PORT", "Specify port to run the proxy on. Defaults to 8888.") do |port|
     options[:port] = port
   end
-  opts.on("-s", "--enable-ssl", "Ensures cookies are marked as secure") do |ssl|
+  opts.on("-b", "--bind HOSTNAME", "Specify hostname to bind to. Defaults to 127.0.0.1.") do |hostname|
+    options[:bind] = hostname
+  end
+  opts.on("-s", "--enable-ssl", "Ensures cookies are marked as secure.") do |ssl|
     options[:enable_ssl] = ssl
   end
-  opts.on("-u", "--url URL", "Specify the url of the TiddlyWiki server. Defaults to ") do |url|
+  opts.on("-u", "--url URL", "Specify the url of the TiddlyWiki server. Defaults to http://localhost:8080.") do |url|
     options[:url] = url
   end
   opts.on("-g", "--generate-password CLEARTEXT", "Generates a SHA1 hashed password") do |pass|
     puts Digest::SHA1.hexdigest(pass)
     exit
   end
-  opts.on("-p", "--password HASHED", "Sets the user's password. Use a SHA1 hash or -g") do |hash|
+  opts.on("-P", "--password HASHED", "Sets the user's password. Use a SHA1 hash or -g.") do |hash|
     options[:password] = hash
   end
-  opts.on("-a", "--auth KEY", "Sets a TOTP key for use with Google Authenticator") do |key|
+  opts.on("-a", "--auth KEY", "Sets a TOTP key for use with Google Authenticator.") do |key|
     options[:auth] = key
   end
   opts.on("-h", "--help", "Displays this help") do
@@ -33,7 +36,7 @@ OptionParser.new do |opts|
   end
 end.parse!
 
-TWProxy.set :bind, "0.0.0.0"
+TWProxy.set :bind, options[:bind] || "127.0.0.1"
 
 TWProxy.set :port, options[:port] || 8888
 TWProxy.set :enable_ssl, options[:enable_ssl] || false
