@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+require 'twproxy'
+require 'sinatra'
+
+TWProxy.run!
+
