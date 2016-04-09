@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.authors = ["Steve Gattuso"]
   s.email = "steve@stevegattuso.me"
   s.files = ["lib/twproxy.rb"]
-  s.files = %w(Gemfile README.md twproxy.gemspec) + Dir['lib/**/*', 'bin/*']
+  s.files = %w(Gemfile LICENSE README.md twproxy.gemspec) + Dir['lib/**/*', 'bin/*']
   s.license = "MIT"
   s.executables << 'twproxy'
 
