@@ -51,5 +51,6 @@
       %form{action:'/login', method: 'POST'}
         %input{type: 'text', placeholder: 'Username', name: 'user'}
         %input{type: 'password', placeholder: 'Password', name: 'pass'}
-        %input{type: 'number', placeholder: 'Auth code', name: 'auth'}
+        - if settings.auth
+          %input{type: 'number', placeholder: 'Auth code', name: 'auth'}
         %input{type: 'submit', value: 'Login'}

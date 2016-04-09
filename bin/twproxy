@@ -1,6 +1,48 @@
 #!/usr/bin/env ruby
-require 'twproxy'
-require 'sinatra'
+require "twproxy"
+require "sinatra"
+require "optparse"
+require "digest/sha1"
+
+options = {}
+OptionParser.new do |opts|
+  opts.banner = "Usage: twproxy [options]"
+
+  opts.on("-p", "--port PORT", "Specify port to run the proxy on") do |port|
+    options[:port] = port
+  end
+  opts.on("-s", "--enable-ssl", "Ensures cookies are marked as secure") do |ssl|
+    options[:enable_ssl] = ssl
+  end
+  opts.on("-u", "--url URL", "Specify the url of the TiddlyWiki server. Defaults to ") do |url|
+    options[:url] = url
+  end
+  opts.on("-g", "--generate-password CLEARTEXT", "Generates a SHA1 hashed password") do |pass|
+    puts Digest::SHA1.hexdigest(pass)
+    exit
+  end
+  opts.on("-p", "--password HASHED", "Sets the user's password. Use a SHA1 hash or -g") do |hash|
+    options[:password] = hash
+  end
+  opts.on("-a", "--auth KEY", "Sets a TOTP key for use with Google Authenticator") do |key|
+    options[:auth] = key
+  end
+  opts.on("-h", "--help", "Displays this help") do
+    puts opts
+    exit
+  end
+end.parse!
+
+TWProxy.set :bind, "0.0.0.0"
+
+TWProxy.set :port, options[:port] || 8888
+TWProxy.set :enable_ssl, options[:enable_ssl] || false
+TWProxy.set :url, options[:url] || "http://localhost:8080"
+TWProxy.set :username, options[:username] || ENV['WIKI_USER'] || "user"
+# Default password is test
+TWProxy.set :password, 
+  options[:password] || ENV['WIKI_PASS'] || "a94a8fe5ccb19ba61c4c0873d391e987982fbbd3"
+TWProxy.set :auth, options[:auth] || ENV['WIKI_AUTH']
 
 TWProxy.run!
 
