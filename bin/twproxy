@@ -17,14 +17,17 @@ OptionParser.new do |opts|
   opts.on("-s", "--enable-ssl", "Ensures cookies are marked as secure.") do |ssl|
     options[:enable_ssl] = ssl
   end
-  opts.on("-u", "--url URL", "Specify the url of the TiddlyWiki server. Defaults to http://localhost:8080.") do |url|
+  opts.on("-d", "--destination URL", "Specify the url of the TiddlyWiki server. Defaults to http://localhost:8080.") do |url|
     options[:url] = url
   end
   opts.on("-g", "--generate-password CLEARTEXT", "Generates a SHA1 hashed password") do |pass|
     puts Digest::SHA1.hexdigest(pass)
     exit
   end
-  opts.on("-P", "--password HASHED", "Sets the user's password. Use a SHA1 hash or -g.") do |hash|
+  opts.on("-u", "--username USER", "Sets the username. Defaults to user.") do |user|
+    options[:username] = user
+  end
+  opts.on("-P", "--password HASHED", "Sets the user's password. Use a SHA1 hash or -g. Defaults to test.") do |hash|
     options[:password] = hash
   end
   opts.on("-a", "--auth KEY", "Sets a TOTP key for use with Google Authenticator.") do |key|
