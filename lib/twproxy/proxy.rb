@@ -51,7 +51,7 @@ class TWProxy < Sinatra::Base
       )
       response.set_cookie("auth", value: token, 
                                   secure: settings.enable_ssl, 
-                                  expires: Date.today >> 1,
+                                  expires: (Date.today >> 1).to_time,
                                   httponly: true)
 
       redirect "/"
@@ -62,7 +62,7 @@ class TWProxy < Sinatra::Base
   end
 
   get "/logout" do
-    session[:auth] = ""
+    response.set_cookie("auth", nil)
     redirect "/login"
   end
 
