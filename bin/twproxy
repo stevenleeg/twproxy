@@ -43,7 +43,7 @@ TWProxy.set :bind, options[:bind] || "127.0.0.1"
 
 TWProxy.set :port, options[:port] || 8888
 TWProxy.set :enable_ssl, options[:enable_ssl] || false
-TWProxy.set :url, options[:url] || "http://localhost:8080"
+TWProxy.set :url, options[:url] || "http://localhost:8080" || ENV['WIKI_URL']
 TWProxy.set :username, options[:username] || ENV['WIKI_USER'] || "user"
 # Default password is test
 TWProxy.set :password, 

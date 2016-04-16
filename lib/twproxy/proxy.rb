@@ -49,7 +49,10 @@ class TWProxy < Sinatra::Base
       token = Digest::SHA1.hexdigest(
         "#{params["user"]}#{hashed_pass}#{settings.auth}"
       )
-      response.set_cookie("auth", value: token, secure: settings.enable_ssl, httponly: true)
+      response.set_cookie("auth", value: token, 
+                                  secure: settings.enable_ssl, 
+                                  expires: Date.today >> 1,
+                                  httponly: true)
 
       redirect "/"
     else
@@ -100,4 +103,3 @@ class TWProxy < Sinatra::Base
     http.request(req).body
   end
 end
-
