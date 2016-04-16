@@ -1,1 +1,1 @@
-require 'twproxy/proxy'
+require_relative './twproxy/proxy'

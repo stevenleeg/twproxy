@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-require "twproxy"
+require_relative "../lib/twproxy"
 require "sinatra"
 require "optparse"
 require "digest/sha1"

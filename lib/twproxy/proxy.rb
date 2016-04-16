@@ -69,8 +69,18 @@ class TWProxy < Sinatra::Base
   ##
   # Wiki proxy
   #
+  def get_uri
+    capture = URI::decode(params[:captures][0])
+    base = settings.url
+    if settings.url[-1] != '/'
+      base += '/'
+    end
+
+    uri = URI.parse("#{base}#{URI::encode(capture)}")
+  end
+
   put /\/(.*)/ do
-    uri = URI.parse("#{settings.url}#{URI::encode(params[:captures][0])}")
+    uri = get_uri
     http = Net::HTTP.new(uri.host, uri.port)
 
     req = Net::HTTP::Put.new(uri.request_uri, initheader = { "Content-Type" => "application/json"})
@@ -85,7 +95,7 @@ class TWProxy < Sinatra::Base
   end
 
   delete /\/(.*)/ do
-    uri = URI.parse("#{settings.url}#{URI::encode(params[:captures][0])}")
+    uri = get_uri
     http = Net::HTTP.new(uri.host, uri.port)
 
     req = Net::HTTP::Delete.new(uri.request_uri)
@@ -96,7 +106,7 @@ class TWProxy < Sinatra::Base
   end
 
   get /\/(.*)/ do
-    uri = URI.parse("#{settings.url}#{params[:captures][0]}")
+    uri = get_uri
     http = Net::HTTP.new(uri.host, uri.port)
     req = Net::HTTP::Get.new(uri.request_uri)
 
