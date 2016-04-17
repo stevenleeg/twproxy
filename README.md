@@ -1,7 +1,7 @@
 # TiddlyWiki Proxy
 *An authenticated proxy for protecting your wiki.*
 
-![Screencast](http://i.imgur.com/NmGf4iE.gifv)
+![Screencast](http://i.imgur.com/NmGf4iE.gif)
 
 This gem provides an easy way to secure a TiddlyWiki installation so you can
 expose it to the internet without having to worry about others gaining access.
