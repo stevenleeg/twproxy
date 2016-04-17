@@ -104,3 +104,14 @@ correctly only to see yet another authentication prompt.
 ## Using with Docker
 **Note:** More documentation on this to come. This is still a WIP.
 
+## Issues
+If you're having trouble with twproxy please don't hesitate to open an issue to
+let me know. I'm actively maintaining this project for my own use, so it's in
+my best interest to make sure it is secure and functional.
+
+If you are filing a bug report please make sure you describe all steps
+necessary to reproduce the issue. This will make my job much easier and make
+sure your bug gets fixed faster.
+
+Happy wiki-ing!
+
