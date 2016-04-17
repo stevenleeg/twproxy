@@ -43,7 +43,7 @@ class TWProxy < Sinatra::Base
     end
 
     if !auth
-      @error = "Auth code is busted"
+      @error = "Auth code is incorrect"
       haml :login
     elsif user && pass && auth
       token = Digest::SHA1.hexdigest(
