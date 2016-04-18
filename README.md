@@ -52,8 +52,12 @@ protecting it with a username of `stevenleeg` and a password of `helloWorld`:
 $ twproxy -u stevenleeg -P 5395ebfd174b0a5617e6f409dfbb3e064e3fdf0a -d http://localhost:8080/
 ```
 
-If all goes well you can now navigate to `http://localhost:8888` and see a
-prompt for your username and password.
+In this case the `-u stevenleeg` specifies the username, `-P [...]` specifies
+the _hash_ of our desired password, and the `-d http://localhost:8080`
+specifies the URL of the tiddlywiki that we are looking to protect. If all goes
+well you can now navigate to `http://localhost:8888` (`8888` is the default
+port twproxy runs on unless you specify a different one with the `-p` argument)
+and see a prompt for your username and password.
 
 That's all there is to it! Twproxy is set up and ready to go for basic usage,
 however if you're paranoid I'd recommend further securing your wiki with SSL
