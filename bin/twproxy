@@ -20,6 +20,9 @@ OptionParser.new do |opts|
   opts.on("-d", "--destination URL", "Specify the url of the TiddlyWiki server. Defaults to http://localhost:8080.") do |url|
     options[:url] = url
   end
+  opts.on("-x", "--path-prefix PATH_PREFIX", "Specify the path prefix of the TiddlyWiki server, if existing. Defaults to /.") do |path_prefix|
+    options[:path_prefix] = path_prefix
+  end
   opts.on("-g", "--generate-password CLEARTEXT", "Generates a SHA1 hashed password") do |pass|
     puts Digest::SHA1.hexdigest(pass)
     exit
@@ -44,11 +47,11 @@ TWProxy.set :bind, options[:bind] || "127.0.0.1"
 TWProxy.set :port, options[:port] || 8888
 TWProxy.set :enable_ssl, options[:enable_ssl] || false
 TWProxy.set :url, options[:url] || "http://localhost:8080" || ENV['WIKI_URL']
+TWProxy.set :path_prefix, options[:path_prefix] || "/"
 TWProxy.set :username, options[:username] || ENV['WIKI_USER'] || "user"
 # Default password is test
-TWProxy.set :password, 
-  options[:password] || ENV['WIKI_PASS'] || "a94a8fe5ccb19ba61c4c0873d391e987982fbbd3"
+TWProxy.set :password,
+            options[:password] || ENV['WIKI_PASS'] || "a94a8fe5ccb19ba61c4c0873d391e987982fbbd3"
 TWProxy.set :auth, options[:auth] || ENV['WIKI_AUTH']
 
 TWProxy.run!
-

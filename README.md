@@ -26,6 +26,7 @@ Usage: twproxy [options]
     -b, --bind HOSTNAME              Specify hostname to bind to. Defaults to 127.0.0.1.
     -s, --enable-ssl                 Ensures cookies are marked as secure.
     -d, --destination URL            Specify the url of the TiddlyWiki server. Defaults to http://localhost:8080.
+    -x, --path-prefix PATH_PREFIX    Specify the path prefix of the TiddlyWiki server (according to [path-prefix](http://tiddlywiki.com/#Using%20a%20custom%20path%20prefix%20with%20the%20client-server%20edition). Defaults to "/".
     -g CLEARTEXT,                    Generates a SHA1 hashed password
         --generate-password
     -u, --username USER              Sets the username. Defaults to user.
