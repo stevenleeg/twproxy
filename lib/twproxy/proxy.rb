@@ -54,7 +54,7 @@ class TWProxy < Sinatra::Base
                                   expires: (Date.today >> 1).to_time,
                                   httponly: true)
 
-      redirect "/"
+      redirect "#{settings.path_prefix}"
     else
       @error = "Invalid username/password"
       haml :login
