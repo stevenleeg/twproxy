@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name = "twproxy"
-  s.version = "0.0.1"
-  s.date = "2016-04-09"
+  s.version = "0.0.2"
+  s.date = "2020-03-22"
   s.summary = "TiddlyWiki Proxy"
   s.description = "An authenticated proxy for TiddlyWiki"
   s.authors = ["Steve Gattuso"]
@@ -11,8 +11,8 @@ Gem::Specification.new do |s|
   s.license = "MIT"
   s.executables << 'twproxy'
 
-  s.add_dependency 'sinatra', '~> 1.4'
-  s.add_dependency 'haml', '~> 4.0'
+  s.add_dependency 'sinatra', '~> 2.0'
+  s.add_dependency 'haml', '~> 5.0'
   s.add_dependency 'rotp', '~> 2.1'
 end
 

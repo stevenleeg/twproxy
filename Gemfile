@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-gem "sinatra"
-gem "haml"
-gem "rotp"
+gem 'sinatra', '~> 2.0'
+gem 'haml', '~> 5.0'
+gem 'rotp', '~> 2.1'
 
