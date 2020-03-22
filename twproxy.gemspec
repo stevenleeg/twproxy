@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
   s.executables << 'twproxy'
 
   s.add_dependency 'sinatra', '~> 1.4'
-  s.add_dependency 'haml', '~> 4.0'
+  s.add_dependency 'haml', '>= 4', '< 6'
   s.add_dependency 'rotp', '~> 2.1'
 end
 
