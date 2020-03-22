@@ -49,8 +49,8 @@ class TWProxy < Sinatra::Base
       token = Digest::SHA1.hexdigest(
         "#{params["user"]}#{hashed_pass}#{settings.auth}"
       )
-      response.set_cookie("auth", value: token, 
-                                  secure: settings.enable_ssl, 
+      response.set_cookie("auth", value: token,
+                                  secure: settings.enable_ssl,
                                   expires: (Date.today >> 1).to_time,
                                   httponly: true)
 
@@ -90,7 +90,7 @@ class TWProxy < Sinatra::Base
     resp = http.request(req)
 
     status resp.code
-    headers({"Etag" => resp["Etag"]})
+    headers({"Etag" => resp["Etag"]}) unless resp["Etag"].nil?
     resp.body
   end
 
