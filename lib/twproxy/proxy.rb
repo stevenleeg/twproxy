@@ -83,7 +83,8 @@ class TWProxy < Sinatra::Base
     uri = get_uri
     http = Net::HTTP.new(uri.host, uri.port)
 
-    req = Net::HTTP::Put.new(uri.request_uri, initheader = { "Content-Type" => "application/json"})
+    req = Net::HTTP::Put.new(uri.request_uri, initheader = { "Content-Type" => "application/json", "x-requested-with" => "TiddlyWiki"})
+
     request.body.rewind
     req.body = request.body.read
 
@@ -98,7 +99,7 @@ class TWProxy < Sinatra::Base
     uri = get_uri
     http = Net::HTTP.new(uri.host, uri.port)
 
-    req = Net::HTTP::Delete.new(uri.request_uri)
+    req = Net::HTTP::Delete.new(uri.request_uri, initheader = { "x-requested-with" => "TiddlyWiki"})
     resp = http.request(req)
 
     status resp.code
