@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.license = "MIT"
   s.executables << 'twproxy'
 
-  s.add_dependency 'sinatra', '~> 2.0'
+  s.add_dependency 'sinatra', '>= 2', '< 4'
   s.add_dependency 'haml', '~> 5.0'
   s.add_dependency 'rotp', '~> 2.1'
 end
